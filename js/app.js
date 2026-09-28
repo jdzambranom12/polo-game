@@ -34,6 +34,7 @@ class AppController {
       timer: null,
       statusBadge: null,
       winTime: null,
+      winPolo: null,
       leaderboard: null
     };
   }
@@ -58,6 +59,7 @@ class AppController {
     this.displays.timer = document.getElementById('game-timer-display');
     this.displays.statusBadge = document.getElementById('igneo-status-badge');
     this.displays.winTime = document.getElementById('win-time-display');
+    this.displays.winPolo = document.getElementById('win-polo-image');
     this.displays.leaderboard = document.getElementById('leaderboard-container');
 
     const canvas = document.getElementById('game-canvas');
@@ -69,6 +71,7 @@ class AppController {
 
     // 3. Load Character Assets
     await assetManager.loadAll();
+    this.displays.winPolo.src = assetManager.sprites.polo.win.src;
 
     // 4. Setup UI Event Listeners
     this.setupEventListeners();
@@ -157,6 +160,7 @@ class AppController {
     if (gameState.currentState !== GAME_STATES.PLAYING) return;
 
     // Stop gameplay immediately and calculate exact elapsed time
+    gameState.setPoloState(POLO_STATES.VICTORY);
     gameState.setState(GAME_STATES.WON);
     gameTimer.stop();
     igneoController.stop();

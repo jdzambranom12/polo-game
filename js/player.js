@@ -50,6 +50,7 @@ class PlayerController {
 
     this.isHoldingMove = true;
     gameState.isMoving = true;
+    gameState.setPoloState(POLO_STATES.MOVING);
     soundManager.playStep();
 
     // Check immediate caught condition if Ígneo is already looking!
@@ -67,8 +68,16 @@ class PlayerController {
   }
 
   stopMovement() {
+    const wasMoving = this.isHoldingMove || gameState.isMoving;
     this.isHoldingMove = false;
     gameState.isMoving = false;
+    if (
+      wasMoving &&
+      gameState.currentState === GAME_STATES.PLAYING &&
+      gameState.poloState === POLO_STATES.MOVING
+    ) {
+      gameState.setPoloState(POLO_STATES.IDLE);
+    }
   }
 
   update(deltaTime) {
@@ -97,7 +106,13 @@ class PlayerController {
   }
 
   checkDangerViolation() {
-    if (gameState.igneoState === IGNEO_STATES.DANGER && gameState.isMoving) {
+    if (
+      gameState.currentState === GAME_STATES.PLAYING &&
+      this.isHoldingMove &&
+      gameState.isMoving &&
+      gameState.igneoState === IGNEO_STATES.DANGER
+    ) {
+      gameState.setPoloState(POLO_STATES.CAUGHT_WHILE_MOVING);
       this.stopMovement();
       app.handleCaught();
     }

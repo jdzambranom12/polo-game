@@ -15,6 +15,13 @@ const IGNEO_STATES = {
   SPOTTED: 'SPOTTED'  // Ígneo te atrapó
 };
 
+const POLO_STATES = {
+  IDLE: 'IDLE',
+  MOVING: 'MOVING',
+  CAUGHT_WHILE_MOVING: 'CAUGHT_WHILE_MOVING',
+  VICTORY: 'VICTORY'
+};
+
 class GameState {
   constructor() {
     this.currentState = GAME_STATES.START;
@@ -22,6 +29,7 @@ class GameState {
     this.playerName = '';
     this.playerPositionX = CONFIG.TRACK.START_X;
     this.isMoving = false;
+    this.poloState = POLO_STATES.IDLE;
     this.listeners = [];
   }
 
@@ -30,6 +38,7 @@ class GameState {
     this.igneoState = IGNEO_STATES.SAFE;
     this.playerPositionX = CONFIG.TRACK.START_X;
     this.isMoving = false;
+    this.poloState = POLO_STATES.IDLE;
     this.notify();
   }
 
@@ -38,6 +47,7 @@ class GameState {
     this.igneoState = IGNEO_STATES.SAFE;
     this.playerPositionX = CONFIG.TRACK.START_X;
     this.isMoving = false;
+    this.poloState = POLO_STATES.IDLE;
     this.notify();
   }
 
@@ -51,6 +61,13 @@ class GameState {
   setIgneoState(newIgneoState) {
     if (this.igneoState !== newIgneoState) {
       this.igneoState = newIgneoState;
+      this.notify();
+    }
+  }
+
+  setPoloState(newPoloState) {
+    if (this.poloState !== newPoloState) {
+      this.poloState = newPoloState;
       this.notify();
     }
   }

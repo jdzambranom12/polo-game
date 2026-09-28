@@ -98,10 +98,6 @@ class GameRenderer {
     ctx.beginPath();
     ctx.ellipse(CONFIG.TRACK.START_X, trackY + 15, 60, 25, 0, 0, Math.PI * 2);
     ctx.fill();
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 12px sans-serif';
-    ctx.textAlign = 'center';
-    ctx.fillText('INICIO', CONFIG.TRACK.START_X, trackY + 20);
 
     // Finish Platform Indicator
     ctx.fillStyle = '#ff7043';
@@ -166,36 +162,43 @@ class GameRenderer {
   }
 
   drawPolo(ctx) {
-    const px = gameState.playerPositionX;
-    const py = CONFIG.TRACK.Y;
-    const pw = CONFIG.PLAYER.WIDTH;
-    const ph = CONFIG.PLAYER.HEIGHT;
+    const playerCenterX = gameState.playerPositionX;
+    const isFrozen = gameState.poloState === POLO_STATES.IDLE ||
+      gameState.poloState === POLO_STATES.CAUGHT_WHILE_MOVING;
+    const visualScale = isFrozen ? 1.4 : 1.3;
+    const pw = CONFIG.PLAYER.WIDTH * visualScale;
+    const ph = CONFIG.PLAYER.HEIGHT * visualScale;
 
     // Running bobbing offset
     let bobY = 0;
-    if (gameState.isMoving) {
+    if (gameState.poloState === POLO_STATES.MOVING) {
       bobY = Math.sin(this.animTime * 18) * 8;
     }
 
-    // Select sprite pose based on state
-    let sprite = assetManager.sprites.polo.idle;
-    if (gameState.currentState === GAME_STATES.CAUGHT) {
-      sprite = assetManager.sprites.polo.caught;
-    } else if (gameState.currentState === GAME_STATES.WON) {
-      sprite = assetManager.sprites.polo.win;
-    } else if (gameState.isMoving) {
-      sprite = assetManager.sprites.polo.run;
-    }
+    const poloSprites = {
+      [POLO_STATES.IDLE]: assetManager.sprites.polo.caught,
+      [POLO_STATES.MOVING]: assetManager.sprites.polo.run,
+      [POLO_STATES.CAUGHT_WHILE_MOVING]: assetManager.sprites.polo.caught,
+      [POLO_STATES.VICTORY]: assetManager.sprites.polo.win
+    };
+    const sprite = poloSprites[gameState.poloState] || assetManager.sprites.polo.idle;
 
-    // Shadow under character
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
-    ctx.beginPath();
-    ctx.ellipse(px + pw / 2, py + ph - 10, pw * 0.35, 12, 0, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Draw sprite canvas
+    // Fit the full image inside Polo's bounds without distorting or cropping it.
     if (sprite) {
-      ctx.drawImage(sprite, px, py + bobY, pw, ph);
+      const sourceWidth = sprite.naturalWidth || sprite.width;
+      const sourceHeight = sprite.naturalHeight || sprite.height;
+      const scale = Math.min(pw / sourceWidth, ph / sourceHeight);
+      const drawWidth = sourceWidth * scale;
+      const drawHeight = sourceHeight * scale;
+      const drawX = playerCenterX - drawWidth / 2;
+      const igneoCenterY = CONFIG.IGNEO.Y + CONFIG.IGNEO.HEIGHT / 2;
+      const drawY = igneoCenterY - drawHeight / 2 + bobY;
+
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+      ctx.beginPath();
+      ctx.ellipse(playerCenterX, drawY + drawHeight - 10, pw * 0.35, 12, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.drawImage(sprite, drawX, drawY, drawWidth, drawHeight);
     }
   }
 

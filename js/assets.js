@@ -1,33 +1,13 @@
 /**
  * POLO GAME - Asset Loader & Sprite Manager
- * 
- * ARCHITECTURE NOTE FOR ASSET SWAPPING:
- * -------------------------------------
- * To replace the Polo or Ígneo character assets with individual custom PNGs in the future:
- * Simply set `OVERRIDE_SINGLE_ASSETS` to true and place single image files in:
- *   - assets/polo/polo_idle.png
- *   - assets/polo/polo_run.png
- *   - assets/polo/polo_caught.png
- *   - assets/polo/polo_win.png
- *   - assets/igneo/igneo_away.png
- *   - assets/igneo/igneo_turning.png
- *   - assets/igneo/igneo_looking.png
- *   - assets/igneo/igneo_spotted.png
- * 
- * By default, this manager automatically extracts the exact character poses from the official
- * reference sheets `polo_sheet.jpg` and `igneo_sheet.jpg`, applying dynamic background transparency!
  */
 
 const ASSET_PATHS = {
-  // Primary Sheet Sources (Official Character Reference Sheets)
-  POLO_SHEET: 'assets/polo/polo_sheet.jpg',
+  POLO_IDLE: 'assets/polo/Inicio.png',
+  POLO_RUN: 'assets/polo/Corriendo.png',
+  POLO_CAUGHT: 'assets/polo/Congelado.png',
+  POLO_WIN: 'assets/polo/Celebrando.png',
   IGNEO_SHEET: 'assets/igneo/igneo_sheet.jpg',
-
-  // Optional Individual Direct Image Overrides (for future single PNG replacement)
-  POLO_IDLE: 'assets/polo/polo_idle.png',
-  POLO_RUN: 'assets/polo/polo_run.png',
-  POLO_CAUGHT: 'assets/polo/polo_caught.png',
-  POLO_WIN: 'assets/polo/polo_win.png',
 
   IGNEO_AWAY: 'assets/igneo/igneo_away.png',
   IGNEO_TURNING: 'assets/igneo/igneo_turning.png',
@@ -55,38 +35,40 @@ class AssetManager {
   }
 
   async loadAll() {
+    const poloAssets = [
+      ['idle', ASSET_PATHS.POLO_IDLE],
+      ['run', ASSET_PATHS.POLO_RUN],
+      ['caught', ASSET_PATHS.POLO_CAUGHT],
+      ['win', ASSET_PATHS.POLO_WIN]
+    ];
+    const poloResults = await Promise.allSettled(
+      poloAssets.map(([, path]) => this.loadImage(path))
+    );
+
+    poloResults.forEach((result, index) => {
+      if (result.status === 'fulfilled') {
+        this.sprites.polo[poloAssets[index][0]] = result.value;
+      } else {
+        console.error(`Could not load Polo asset ${poloAssets[index][1]}.`, result.reason);
+      }
+    });
+
     try {
-      // Attempt to load official sheets and slice them
-      const poloSheetImg = await this.loadImage(ASSET_PATHS.POLO_SHEET);
       const igneoSheetImg = await this.loadImage(ASSET_PATHS.IGNEO_SHEET);
 
-      // Slice Polo poses from sheet with transparent background filter
-      // Row 0 Col 0: Run (top left)
-      // Row 0 Col 1: Win (top second)
-      // Row 1 Col 0: Caught (bottom left)
-      // Row 1 Col 2: Idle (bottom third)
-      this.sprites.polo.run = this.cropAndRemoveBg(poloSheetImg, 0, 0, 0.25, 0.5);
-      this.sprites.polo.win = this.cropAndRemoveBg(poloSheetImg, 0.25, 0, 0.25, 0.5);
-      this.sprites.polo.caught = this.cropAndRemoveBg(poloSheetImg, 0, 0.5, 0.25, 0.5);
-      this.sprites.polo.idle = this.cropAndRemoveBg(poloSheetImg, 0.5, 0.5, 0.25, 0.5);
-
       // Slice Ígneo poses from sheet with transparent background filter
-      // Row 1 Col 2: Away (bottom 3rd - calm, eyes closed)
-      // Row 1 Col 3: Turning (bottom 4th - flame spin/side)
-      // Row 1 Col 1: Looking (bottom 2nd - pointing left/looking forward)
-      // Row 0 Col 2: Spotted (top 3rd - landing/alert pose)
       this.sprites.igneo.away = this.cropAndRemoveBg(igneoSheetImg, 0.5, 0.5, 0.25, 0.5);
       this.sprites.igneo.turning = this.cropAndRemoveBg(igneoSheetImg, 0.75, 0.5, 0.25, 0.5);
       this.sprites.igneo.looking = this.cropAndRemoveBg(igneoSheetImg, 0.25, 0.5, 0.25, 0.5);
       this.sprites.igneo.spotted = this.cropAndRemoveBg(igneoSheetImg, 0.5, 0, 0.25, 0.5);
 
-      this.isLoaded = true;
-      console.log('Official character assets loaded & sliced successfully!');
+      console.log('Ígneo character assets loaded & sliced successfully!');
     } catch (err) {
-      console.warn('Could not load primary character sheets, generating SVG vector placeholders...', err);
-      this.generateFallbackSprites();
-      this.isLoaded = true;
+      console.warn('Could not load Ígneo character sheet, generating SVG vector placeholders...', err);
+      this.generateIgneoFallbackSprites();
     }
+
+    this.isLoaded = true;
   }
 
   loadImage(src) {
@@ -138,14 +120,9 @@ class AssetManager {
   }
 
   /**
-   * Fallback vector graphic placeholders if asset files are missing or restricted
+   * Fallback vector graphic placeholders if Ígneo's sheet is missing or restricted
    */
-  generateFallbackSprites() {
-    this.sprites.polo.idle = this.createFallbackCanvas('Polo (Idle)', '#81d4fa');
-    this.sprites.polo.run = this.createFallbackCanvas('Polo (Run)', '#29b6f6');
-    this.sprites.polo.caught = this.createFallbackCanvas('Polo (!)', '#ff7043');
-    this.sprites.polo.win = this.createFallbackCanvas('Polo (Win!)', '#66bb6a');
-
+  generateIgneoFallbackSprites() {
     this.sprites.igneo.away = this.createFallbackCanvas('Ígneo (Away)', '#ffb74d');
     this.sprites.igneo.turning = this.createFallbackCanvas('Ígneo (?)', '#ffa726');
     this.sprites.igneo.looking = this.createFallbackCanvas('Ígneo (LOOKING)', '#ff5722');

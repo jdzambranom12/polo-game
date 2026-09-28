@@ -130,20 +130,27 @@
 }
 
 /* Leaderboard Styling */
-.leaderboard-section {
+.leaderboard-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  max-width: 680px;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.leaderboard-title {
+  font-size: 1.5rem;
+  color: #01579b;
+}
+
+.leaderboard-container {
   width: 100%;
-  margin-top: 14px;
   background: rgba(224, 247, 250, 0.6);
   border-radius: 16px;
   padding: 12px;
   border: 2px solid #b2ebf2;
-}
-
-.leaderboard-section h2 {
-  font-size: 1.1rem;
-  color: #01579b;
-  margin-bottom: 8px;
-  letter-spacing: 1px;
 }
 
 .leaderboard-table {
@@ -238,7 +245,7 @@
 }
 
 .win-time {
-  font-family: 'Courier New', monospace;
+  font-family: inherit;
   font-size: 2.8rem;
   font-weight: bold;
   color: #1b5e20;

@@ -35,7 +35,7 @@
 .hud-value {
   background: #002733;
   color: #00e5ff;
-  font-family: 'Courier New', monospace;
+  font-family: inherit;
   font-size: 1.8rem;
   font-weight: bold;
   padding: 6px 16px;

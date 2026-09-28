@@ -11,6 +11,7 @@ class AppController {
     // DOM Elements
     this.screens = {
       start: null,
+      leaderboard: null,
       gameplay: null,
       caughtModal: null,
       winModal: null
@@ -22,6 +23,8 @@ class AppController {
 
     this.buttons = {
       start: null,
+      showLeaderboard: null,
+      backLeaderboard: null,
       move: null,
       restartCaught: null,
       restartWin: null
@@ -38,6 +41,7 @@ class AppController {
   async init() {
     // 1. Cache DOM element references
     this.screens.start = document.getElementById('start-screen');
+    this.screens.leaderboard = document.getElementById('leaderboard-screen');
     this.screens.gameplay = document.getElementById('gameplay-screen');
     this.screens.caughtModal = document.getElementById('modal-caught');
     this.screens.winModal = document.getElementById('modal-win');
@@ -45,6 +49,8 @@ class AppController {
     this.inputs.name = document.getElementById('player-name-input');
 
     this.buttons.start = document.getElementById('btn-start-game');
+    this.buttons.showLeaderboard = document.getElementById('btn-show-leaderboard');
+    this.buttons.backLeaderboard = document.getElementById('btn-back-leaderboard');
     this.buttons.move = document.getElementById('btn-avanzar');
     this.buttons.restartCaught = document.getElementById('btn-restart-caught');
     this.buttons.restartWin = document.getElementById('btn-restart-win');
@@ -64,16 +70,13 @@ class AppController {
     // 3. Load Character Assets
     await assetManager.loadAll();
 
-    // 4. Render Initial Leaderboard
-    leaderboard.renderToContainer(this.displays.leaderboard);
-
-    // 5. Setup UI Event Listeners
+    // 4. Setup UI Event Listeners
     this.setupEventListeners();
 
-    // 6. Subscribe UI to State changes
+    // 5. Subscribe UI to State changes
     gameState.subscribe((state) => this.handleStateChange(state));
 
-    // 7. Start Canvas render loop
+    // 6. Start Canvas render loop
     this.startLoop();
   }
 
@@ -89,6 +92,17 @@ class AppController {
       }
       gameState.setPlayerName(name);
       this.startGameplay();
+    });
+
+    this.buttons.showLeaderboard.addEventListener('click', () => {
+      soundManager.playClick();
+      this.showLeaderboard();
+    });
+
+    this.buttons.backLeaderboard.addEventListener('click', () => {
+      soundManager.playClick();
+      this.screens.leaderboard.classList.add('hidden');
+      this.screens.start.classList.remove('hidden');
     });
 
     // Enter key submit in name input
@@ -161,21 +175,30 @@ class AppController {
   }
 
   showStartScreen() {
+    this.screens.leaderboard.classList.add('hidden');
     gameState.reset();
     gameTimer.reset();
     igneoController.stop();
     leaderboard.renderToContainer(this.displays.leaderboard);
   }
 
+  showLeaderboard() {
+    leaderboard.renderToContainer(this.displays.leaderboard);
+    this.screens.start.classList.add('hidden');
+    this.screens.leaderboard.classList.remove('hidden');
+  }
+
   handleStateChange(state) {
     // Screen router
     if (state.currentState === GAME_STATES.START) {
       this.screens.start.classList.remove('hidden');
+      this.screens.leaderboard.classList.add('hidden');
       this.screens.gameplay.classList.add('hidden');
       this.screens.caughtModal.classList.add('hidden');
       this.screens.winModal.classList.add('hidden');
     } else {
       this.screens.start.classList.add('hidden');
+      this.screens.leaderboard.classList.add('hidden');
       this.screens.gameplay.classList.remove('hidden');
     }
 

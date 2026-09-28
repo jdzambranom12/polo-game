@@ -4,6 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>POLO - Juego Interactivo</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/game.css">
   <link rel="stylesheet" href="css/ui.css">
@@ -29,17 +32,22 @@
 
         <button id="btn-start-game" class="btn btn-primary btn-large">COMENZAR</button>
 
-        <!-- Persistent Leaderboard Section -->
-        <div class="leaderboard-section">
-          <h2>MEJORES TIEMPOS</h2>
-          <div id="leaderboard-container">
-            <!-- Dynamic Leaderboard Table -->
-          </div>
-        </div>
+        <button id="btn-show-leaderboard" class="btn btn-primary btn-large" type="button">MEJORES TIEMPOS</button>
       </div>
     </div>
 
-    <!-- 2. GAMEPLAY SCREEN -->
+    <!-- 2. LEADERBOARD SCREEN -->
+    <div id="leaderboard-screen" class="screen-overlay hidden">
+      <div class="card leaderboard-card">
+        <h2 class="leaderboard-title">MEJORES TIEMPOS</h2>
+        <div id="leaderboard-container" class="leaderboard-container">
+          <!-- Dynamic Leaderboard Table -->
+        </div>
+        <button id="btn-back-leaderboard" class="btn btn-primary btn-large" type="button">VOLVER</button>
+      </div>
+    </div>
+
+    <!-- 3. GAMEPLAY SCREEN -->
     <div id="gameplay-screen" class="screen-overlay hidden">
       <!-- HUD Header -->
       <header class="game-hud">
@@ -68,7 +76,7 @@
       </footer>
     </div>
 
-    <!-- 3. PLAYER CAUGHT MODAL -->
+    <!-- 4. PLAYER CAUGHT MODAL -->
     <div id="modal-caught" class="modal-overlay hidden">
       <div class="modal-card modal-danger animate-pop">
         <div class="modal-icon">⚠️</div>
@@ -78,7 +86,7 @@
       </div>
     </div>
 
-    <!-- 4. PLAYER WINS MODAL -->
+    <!-- 5. PLAYER WINS MODAL -->
     <div id="modal-win" class="modal-overlay hidden">
       <div class="modal-card modal-success animate-pop">
         <div class="modal-icon">🏆</div>

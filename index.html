@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>POLO - Juego Interactivo</title>
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/game.css">
+  <link rel="stylesheet" href="css/ui.css">
+</head>
+<body>
+  <div id="game-container">
+    
+    <!-- 1. START SCREEN & LEADERBOARD -->
+    <div id="start-screen" class="screen-overlay">
+      <div class="card start-card">
+        <div class="logo-badge">JUEGO POLO</div>
+        <h1 class="game-title">POLO</h1>
+        <p class="game-tagline">Corre cuando Ígneo no te mire.</p>
+        <p class="game-instructions">
+          Avanza mientras Ígneo no esté mirando y detente cuando se dé la vuelta.
+        </p>
+
+        <!-- Name Input Section -->
+        <div class="input-group">
+          <label for="player-name-input">ESCRIBE TU NOMBRE</label>
+          <input type="text" id="player-name-input" placeholder="Tu nombre aquí..." maxlength="20" autocomplete="off" />
+        </div>
+
+        <button id="btn-start-game" class="btn btn-primary btn-large">COMENZAR</button>
+
+        <!-- Persistent Leaderboard Section -->
+        <div class="leaderboard-section">
+          <h2>MEJORES TIEMPOS</h2>
+          <div id="leaderboard-container">
+            <!-- Dynamic Leaderboard Table -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 2. GAMEPLAY SCREEN -->
+    <div id="gameplay-screen" class="screen-overlay hidden">
+      <!-- HUD Header -->
+      <header class="game-hud">
+        <div class="hud-item timer-box">
+          <span class="hud-label">TIEMPO</span>
+          <span id="game-timer-display" class="hud-value">00:00.00</span>
+        </div>
+
+        <div class="hud-item status-box">
+          <div id="igneo-status-badge" class="status-badge status-safe">
+            ÍGNEO NO MIRA
+          </div>
+        </div>
+      </header>
+
+      <!-- Main Game Canvas -->
+      <div class="canvas-wrapper">
+        <canvas id="game-canvas" width="1000" height="500"></canvas>
+      </div>
+
+      <!-- Controls Footer -->
+      <footer class="game-controls">
+        <button id="btn-avanzar" class="btn btn-move">
+          AVANZAR
+        </button>
+      </footer>
+    </div>
+
+    <!-- 3. PLAYER CAUGHT MODAL -->
+    <div id="modal-caught" class="modal-overlay hidden">
+      <div class="modal-card modal-danger animate-pop">
+        <div class="modal-icon">⚠️</div>
+        <h2>¡ÍGNEO TE VIO!</h2>
+        <p>INTÉNTALO DE NUEVO</p>
+        <button id="btn-restart-caught" class="btn btn-danger btn-large">JUGAR DE NUEVO</button>
+      </div>
+    </div>
+
+    <!-- 4. PLAYER WINS MODAL -->
+    <div id="modal-win" class="modal-overlay hidden">
+      <div class="modal-card modal-success animate-pop">
+        <div class="modal-icon">🏆</div>
+        <h2>¡LO LOGRASTE!</h2>
+        <p class="win-label">TIEMPO FINAL</p>
+        <div id="win-time-display" class="win-time">00:00.00</div>
+        <button id="btn-restart-win" class="btn btn-success btn-large">JUGAR DE NUEVO</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- JavaScript Modules -->
+  <script src="js/config.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/assets.js"></script>
+  <script src="js/audio.js"></script>
+  <script src="js/timer.js"></script>
+  <script src="js/leaderboard.js"></script>
+  <script src="js/player.js"></script>
+  <script src="js/igneo.js"></script>
+  <script src="js/render.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

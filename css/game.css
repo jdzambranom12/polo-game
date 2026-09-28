@@ -1,0 +1,146 @@
+/* POLO GAME - Gameplay Screen & Canvas HUD */
+
+#gameplay-screen {
+  background: #000;
+  padding: 0;
+  justify-content: space-between;
+}
+
+/* HUD Header */
+.game-hud {
+  width: 100%;
+  padding: 12px 24px;
+  background: rgba(10, 25, 47, 0.9);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 3px solid #00bcd4;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+  z-index: 5;
+}
+
+.hud-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hud-label {
+  color: #80deea;
+  font-weight: bold;
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+}
+
+.hud-value {
+  background: #002733;
+  color: #00e5ff;
+  font-family: 'Courier New', monospace;
+  font-size: 1.8rem;
+  font-weight: bold;
+  padding: 6px 16px;
+  border-radius: 10px;
+  border: 2px solid #00b8d4;
+  box-shadow: inset 0 0 10px rgba(0,229,255,0.3);
+}
+
+/* Status Badges */
+.status-badge {
+  padding: 10px 24px;
+  border-radius: 30px;
+  font-size: 1.3rem;
+  font-weight: 900;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #fff;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+}
+
+.status-safe {
+  background: linear-gradient(135deg, #43a047 0%, #2e7d32 100%);
+  border: 2px solid #81c784;
+}
+
+.status-warning {
+  background: linear-gradient(135deg, #ffb300 0%, #f57c00 100%);
+  border: 2px solid #ffe082;
+  animation: pulse 0.4s infinite alternate;
+}
+
+.status-danger {
+  background: linear-gradient(135deg, #e53935 0%, #b71c1c 100%);
+  border: 2px solid #ff8a80;
+  box-shadow: 0 0 20px rgba(229,57,53,0.8);
+}
+
+.status-spotted {
+  background: #d50000;
+  border: 3px solid #ff1744;
+  animation: shake 0.2s infinite;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.05); }
+}
+
+@keyframes shake {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(-3px, 3px); }
+  75% { transform: translate(3px, -3px); }
+  100% { transform: translate(0, 0); }
+}
+
+/* Canvas Wrapper */
+.canvas-wrapper {
+  position: relative;
+  width: 100%;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #0d1b2a;
+}
+
+#game-canvas {
+  width: 100%;
+  height: 100%;
+  max-width: 1000px;
+  max-height: 500px;
+  object-fit: contain;
+}
+
+/* Controls Footer */
+.game-controls {
+  width: 100%;
+  padding: 16px;
+  background: rgba(10, 25, 47, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 3px solid #00bcd4;
+  z-index: 5;
+}
+
+.btn-move {
+  width: 85%;
+  max-width: 450px;
+  height: 75px;
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: #ffffff;
+  background: linear-gradient(180deg, #29b6f6 0%, #0288d1 100%);
+  border: 4px solid #b2ebf2;
+  border-radius: 40px;
+  box-shadow: 0 8px 25px rgba(2,136,209,0.5), inset 0 4px 6px rgba(255,255,255,0.5);
+  cursor: pointer;
+  transition: transform 0.1s ease, filter 0.1s ease;
+  touch-action: none;
+}
+
+.btn-move:active {
+  transform: scale(0.96);
+  background: linear-gradient(180deg, #0288d1 0%, #01579b 100%);
+  box-shadow: 0 4px 10px rgba(2,136,209,0.4);
+}

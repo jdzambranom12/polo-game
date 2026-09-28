@@ -1,0 +1,77 @@
+/* POLO GAME - Main Styles & Global Layout */
+:root {
+  --primary-blue: #0288d1;
+  --primary-blue-hover: #0277bd;
+  --ice-bg: #e0f7fa;
+  --fire-orange: #ff5722;
+  --fire-red: #d32f2f;
+  --safe-green: #2e7d32;
+  --warning-amber: #f57f17;
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --text-dark: #1a237e;
+  --font-family: 'Comic Sans MS', 'Chalkboard SE', 'Fredoka One', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+body {
+  font-family: var(--font-family);
+  background: linear-gradient(135deg, #00838f 0%, #004d40 40%, #bf360c 100%);
+  color: var(--text-dark);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+#game-container {
+  position: relative;
+  width: 100vw;
+  max-width: 1100px;
+  height: 100vh;
+  max-height: 750px;
+  background: #000;
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.screen-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle, rgba(224,247,250,0.95) 0%, rgba(178,235,242,0.98) 100%);
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Animations */
+@keyframes popIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.animate-pop {
+  animation: popIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}

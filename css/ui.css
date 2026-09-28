@@ -1,0 +1,249 @@
+/* POLO GAME - Start Screen, Modals & Leaderboard UI */
+
+/* Card Container */
+.card {
+  background: var(--card-bg);
+  border-radius: 24px;
+  padding: 24px 32px;
+  width: 90%;
+  max-width: 580px;
+  text-align: center;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.25);
+  border: 4px solid #ffffff;
+}
+
+.start-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.logo-badge {
+  background: #00bcd4;
+  color: #fff;
+  padding: 4px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+.game-title {
+  font-size: 3.5rem;
+  font-weight: 900;
+  color: #0277bd;
+  text-shadow: 3px 3px 0px #b2ebf2;
+  line-height: 1;
+}
+
+.game-tagline {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #d32f2f;
+}
+
+.game-instructions {
+  font-size: 0.95rem;
+  color: #455a64;
+  max-width: 440px;
+  line-height: 1.4;
+}
+
+/* Name Input Group */
+.input-group {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  margin-top: 8px;
+}
+
+.input-group label {
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #0277bd;
+  letter-spacing: 1px;
+}
+
+.input-group input {
+  width: 100%;
+  max-width: 340px;
+  padding: 12px 18px;
+  font-size: 1.2rem;
+  font-family: inherit;
+  text-align: center;
+  border: 3px solid #81d4fa;
+  border-radius: 16px;
+  outline: none;
+  background: #f1f8e9;
+  color: #1a237e;
+  transition: border-color 0.2s ease;
+}
+
+.input-group input:focus {
+  border-color: #0288d1;
+  box-shadow: 0 0 10px rgba(2,136,209,0.3);
+}
+
+/* General Buttons */
+.btn {
+  font-family: inherit;
+  cursor: pointer;
+  border: none;
+  border-radius: 20px;
+  font-weight: bold;
+  transition: transform 0.15s ease, background 0.15s ease;
+}
+
+.btn-large {
+  padding: 14px 40px;
+  font-size: 1.4rem;
+  letter-spacing: 1px;
+}
+
+.btn-primary {
+  background: linear-gradient(180deg, #4fc3f7 0%, #0288d1 100%);
+  color: #ffffff;
+  border: 3px solid #b2ebf2;
+  box-shadow: 0 6px 15px rgba(2,136,209,0.4);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  background: linear-gradient(180deg, #29b6f6 0%, #0277bd 100%);
+}
+
+.btn-danger {
+  background: linear-gradient(180deg, #ff7043 0%, #d32f2f 100%);
+  color: #ffffff;
+  border: 3px solid #ffccbc;
+  box-shadow: 0 6px 15px rgba(211,47,47,0.4);
+}
+
+.btn-success {
+  background: linear-gradient(180deg, #66bb6a 0%, #2e7d32 100%);
+  color: #ffffff;
+  border: 3px solid #c8e6c9;
+  box-shadow: 0 6px 15px rgba(46,125,50,0.4);
+}
+
+/* Leaderboard Styling */
+.leaderboard-section {
+  width: 100%;
+  margin-top: 14px;
+  background: rgba(224, 247, 250, 0.6);
+  border-radius: 16px;
+  padding: 12px;
+  border: 2px solid #b2ebf2;
+}
+
+.leaderboard-section h2 {
+  font-size: 1.1rem;
+  color: #01579b;
+  margin-bottom: 8px;
+  letter-spacing: 1px;
+}
+
+.leaderboard-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.leaderboard-table th {
+  background: #0288d1;
+  color: #ffffff;
+  padding: 6px 10px;
+  font-size: 0.85rem;
+}
+
+.leaderboard-table th:first-child { border-radius: 8px 0 0 8px; }
+.leaderboard-table th:last-child { border-radius: 0 8px 8px 0; }
+
+.leaderboard-table td {
+  padding: 6px 10px;
+  border-bottom: 1px dashed #b2ebf2;
+}
+
+.top-rank {
+  font-weight: bold;
+  background: rgba(255, 235, 59, 0.25);
+}
+
+.empty-leaderboard {
+  padding: 12px;
+  color: #546e7a;
+  font-size: 0.9rem;
+}
+
+/* Modal Overlays */
+.modal-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(4px);
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.modal-card {
+  background: #ffffff;
+  border-radius: 24px;
+  padding: 30px 40px;
+  text-align: center;
+  max-width: 460px;
+  width: 90%;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.modal-icon {
+  font-size: 3.5rem;
+  line-height: 1;
+}
+
+.modal-danger {
+  border: 4px solid #ef5350;
+}
+
+.modal-danger h2 {
+  color: #c62828;
+  font-size: 2.2rem;
+}
+
+.modal-success {
+  border: 4px solid #66bb6a;
+}
+
+.modal-success h2 {
+  color: #2e7d32;
+  font-size: 2.2rem;
+}
+
+.win-label {
+  font-size: 1.1rem;
+  color: #558b2f;
+  font-weight: bold;
+}
+
+.win-time {
+  font-family: 'Courier New', monospace;
+  font-size: 2.8rem;
+  font-weight: bold;
+  color: #1b5e20;
+  background: #e8f5e9;
+  padding: 8px 24px;
+  border-radius: 16px;
+  border: 2px solid #a5d6a7;
+}

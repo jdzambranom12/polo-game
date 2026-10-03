@@ -31,7 +31,7 @@ const CONFIG = {
 
   // State durations (in seconds)
   TIMING: {
-    WARNING_DURATION: 0.22, // transition warning duration
+    WARNING_DURATION: 0.75, // time to stop before Ígneo looks
     DANGER_MIN: 1.2,
     DANGER_MAX: 1.8,
     // Dynamic Safe duration based on distance percentage (0.0 to 1.0)

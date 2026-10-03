@@ -104,9 +104,6 @@ class GameRenderer {
     ctx.beginPath();
     ctx.ellipse(CONFIG.TRACK.FINISH_X, trackY + 15, 60, 25, 0, 0, Math.PI * 2);
     ctx.fill();
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 12px sans-serif';
-    ctx.fillText('META', CONFIG.TRACK.FINISH_X, trackY + 20);
   }
 
   drawFinishBanner(ctx) {
@@ -217,15 +214,34 @@ class GameRenderer {
       sprite = assetManager.sprites.igneo.spotted;
     }
 
-    // Shadow under Ígneo
-    ctx.fillStyle = 'rgba(230, 81, 0, 0.25)';
-    ctx.beginPath();
-    ctx.ellipse(ix + iw / 2, iy + ih - 10, iw * 0.4, 14, 0, 0, Math.PI * 2);
-    ctx.fill();
-
-    // Draw sprite canvas
+    // Crop the wide transparent side margins on Ígneo's square sprites.
     if (sprite) {
-      ctx.drawImage(sprite, ix, iy, iw, ih);
+      const imageWidth = sprite.naturalWidth || sprite.width;
+      const sourceHeight = sprite.naturalHeight || sprite.height;
+      const sourceX = imageWidth * 0.22;
+      const sourceWidth = imageWidth * 0.56;
+      const drawHeight = ih * 1.3;
+      const drawWidth = drawHeight * sourceWidth / imageWidth;
+      const centerX = ix + iw / 2;
+      const centerY = iy + ih / 2;
+      const drawX = centerX - drawWidth / 2;
+      const drawY = centerY - drawHeight / 2;
+
+      ctx.fillStyle = 'rgba(230, 81, 0, 0.25)';
+      ctx.beginPath();
+      ctx.ellipse(centerX, drawY + drawHeight - 10, drawWidth * 0.4, 14, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.drawImage(
+        sprite,
+        sourceX,
+        0,
+        sourceWidth,
+        sourceHeight,
+        drawX,
+        drawY,
+        drawWidth,
+        drawHeight
+      );
     }
   }
 }
